@@ -1,9 +1,12 @@
 import { promises as fs } from "fs";
+import os from "os";
 import path from "path";
 import { hashPassword } from "./auth";
 import type { Database, Invoice, Property, Ticket, User } from "./types";
 
-const DB_DIR = path.join(process.cwd(), "data");
+const DB_DIR = process.env.VERCEL
+  ? path.join(os.tmpdir(), "aluga-data")
+  : path.join(process.cwd(), "data");
 const DB_PATH = path.join(DB_DIR, "db.json");
 
 const PLATFORM_FEE_RATE = 0.08; // 8% taxa de assessoria digital
@@ -372,12 +375,12 @@ export async function readDatabase(): Promise<Database> {
     };
 
     if (dirty) {
-      await writeDatabase(normalized);
+      await writeDatabase(normalized).catch(() => {});
     }
     return normalized;
   } catch {
     const seed = createSeedData();
-    await writeDatabase(seed);
+    await writeDatabase(seed).catch(() => {});
     return seed;
   }
 }
