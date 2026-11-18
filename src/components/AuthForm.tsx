@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
@@ -46,7 +45,6 @@ const DEMO_ACCOUNTS: Array<{
 ];
 
 export function AuthForm() {
-  const router = useRouter();
   const [mode, setMode] = useState<"login" | "register" | "forgot">("login");
   const [step, setStep] = useState<1 | 2 | 3>(1);
 
@@ -95,8 +93,7 @@ export function AuthForm() {
         return;
       }
 
-      router.push(data.redirectTo ?? "/");
-      router.refresh();
+      window.location.assign(data.redirectTo ?? "/");
     } catch {
       setError("Erro de conexão. Tente novamente.");
     } finally {
@@ -149,8 +146,7 @@ export function AuthForm() {
         return;
       }
 
-      router.push(data.redirectTo ?? "/");
-      router.refresh();
+      window.location.assign(data.redirectTo ?? "/");
     } catch {
       setError("Erro de conexão. Tente novamente.");
     } finally {
@@ -183,8 +179,7 @@ export function AuthForm() {
         setError(data.error ?? "Não foi possível entrar.");
         return;
       }
-      router.push(data.redirectTo ?? "/");
-      router.refresh();
+      window.location.assign(data.redirectTo ?? "/");
     } catch {
       setError("Erro de conexão. Tente novamente.");
     } finally {

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   Building2,
   CreditCard,
@@ -54,13 +54,11 @@ export function DashboardShell({
   action?: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   async function handleLogout() {
     await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/entrar");
-    router.refresh();
+    window.location.assign("/entrar");
   }
 
   const navContent = (

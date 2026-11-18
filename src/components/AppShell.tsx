@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { LogOut, ShieldCheck } from "lucide-react";
 import type { UserRole } from "@/lib/types";
 
@@ -37,12 +37,10 @@ export function AppShell({
   session?: ShellSession | null;
 }) {
   const pathname = usePathname();
-  const router = useRouter();
 
   async function handleLogout() {
     await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/entrar");
-    router.refresh();
+    window.location.assign("/entrar");
   }
 
   return (
